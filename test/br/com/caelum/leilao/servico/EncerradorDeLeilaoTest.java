@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,6 +43,24 @@ public class EncerradorDeLeilaoTest {
 
 	}
 
+	@Test
+	public void deveAtualizarLeiloesEncerrados() {
+		Calendar antiga = Calendar.getInstance();
+		antiga.set(1999, 1, 20);
+
+		Leilao leilao1 = new CriadorDeLeilao().para("TV de plasma").naData(antiga).constroi();
+
+		RepositorioDeLeiloes daoFalso = mock(RepositorioDeLeiloes.class);
+		when(daoFalso.correntes()).thenReturn(Arrays.asList(leilao1));
+
+		EncerradorDeLeilao encerrador = new EncerradorDeLeilao(daoFalso);
+		encerrador.encerra();
+
+		// verifica se o metodo atualiza() foi invocado apenas 1 vez
+		verify(daoFalso, times(1)).atualiza(leilao1);
+	}
+
+	// Exercícios: implementação de outros mocks
 	@Test
 	public void naoDeveEncerrarLeiloesQueComecaramMenosDeUmaSemanaAtras() {
 
