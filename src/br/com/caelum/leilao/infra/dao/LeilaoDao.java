@@ -14,8 +14,9 @@ import java.util.List;
 import br.com.caelum.leilao.dominio.Lance;
 import br.com.caelum.leilao.dominio.Leilao;
 import br.com.caelum.leilao.dominio.Usuario;
+import br.com.caelum.leilao.infra.repository.RepositorioDeLeiloes;
 
-public class LeilaoDao {
+public class LeilaoDao implements RepositorioDeLeiloes {
 
 	private Connection conexao;
 
